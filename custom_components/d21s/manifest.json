@@ -1,0 +1,16 @@
+{
+  "domain": "d21s",
+  "name": "Disruptive Technologies",
+  "codeowners": [
+    "@akselaase"
+  ],
+  "version": "0.1.0",
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/akselaase/homeassistant-d21s",
+  "issue_tracker": "https://github.com/akselaase/homeassistant-d21s/issues",
+  "iot_class": "cloud_push",
+  "requirements": [
+    "disruptive==1.7.3"
+  ]
+}
