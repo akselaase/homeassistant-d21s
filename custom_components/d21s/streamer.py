@@ -5,6 +5,7 @@ import logging
 import threading
 
 import disruptive
+import requests
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.dispatcher import async_dispatcher_send
@@ -29,10 +30,12 @@ class Streamer:
         while not self._stop_event.is_set():
             try:
                 await self._hass.async_add_executor_job(self._stream_once, project_id)
+                await asyncio.sleep(10)
             except asyncio.CancelledError:
                 LOGGER.debug("Stream cancelled")
-            finally:
                 self._stop_event.set()
+            except Exception:
+                LOGGER.exception("Unhandled exception")
 
     def _stream_once(self, project_id: str):
         try:
@@ -41,10 +44,18 @@ class Streamer:
                 self._dispatch(event)
                 if self._stop_event.is_set():
                     break
-        except disruptive.errors.DTApiError as err:
-            LOGGER.error("Stream error: %s", err)
+        except disruptive.errors.DTApiError:
+            LOGGER.exception("Stream error")
+        except requests.exceptions.RequestException:
+            LOGGER.exception("Request error")
 
     def _dispatch(self, event: disruptive.events.Event) -> None:
+        LOGGER.debug(
+            "Dispatching event: device_id=%s, event_type=%s, data=%s",
+            event.device_id,
+            event.event_type,
+            event.data,
+        )
         self._hass.add_job(
             async_dispatcher_send,
             self._hass,

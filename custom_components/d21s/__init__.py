@@ -10,7 +10,7 @@ from .api import D21sAPI
 from .const import CONF_PROJECT, DEVICES, DOMAIN
 from .streamer import Streamer
 
-_PLATFORMS: list[Platform] = [Platform.SENSOR]
+_PLATFORMS: list[Platform] = [Platform.EVENT, Platform.SENSOR]
 
 type D21sConfigEntry = ConfigEntry[D21sAPI]
 
