@@ -78,6 +78,7 @@ class DTEntity(Entity):
 
         if event_type in self._dt_event_types:
             self._attr_available = True
+            self._attr_timestamp = timestamp
             self._on_event(event_type, timestamp, payload)
             self.async_write_ha_state()
 
