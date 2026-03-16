@@ -28,7 +28,9 @@ class DTEntity(Entity):
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, device.device_id)},
             name=device.display_name,
+            default_name=device.device_id,
             model_id=device.product_number,
+            serial_number=device.device_id,
         )
 
         entity_name = self._attr_name.lower().replace(" ", "-")
