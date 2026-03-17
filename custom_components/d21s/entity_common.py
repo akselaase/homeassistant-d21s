@@ -27,8 +27,8 @@ class DTEntity(Entity):
         self._device_id = device.device_id
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, device.device_id)},
-            name=device.display_name,
-            default_name=device.device_id,
+            name=device.display_name or device.device_id,
+            manufacturer="Disruptive Technologies",
             model_id=device.product_number,
             serial_number=device.device_id,
         )
